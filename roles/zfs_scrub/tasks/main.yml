@@ -1,0 +1,18 @@
+---
+# zfs_scrub
+
+- name: Create zpool scrub systemd service
+  template:
+    src: zpool-scrub.service.j2
+    dest: /etc/systemd/system/zpool-scrub@.service
+
+- name: Create zpool scrub systemd timer
+  template:
+    src: zpool-scrub.timer.j2
+    dest: /etc/systemd/system/zpool-scrub@.timer
+
+- name: Enable and start zpool scrub timer
+  systemd:
+    name: 'zpool-scrub@{{ zfs_scrub_zpool }}.timer'
+    enabled: yes
+    state: started
