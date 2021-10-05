@@ -1,0 +1,4 @@
+---
+# defaults for netplan_bridge
+
+netplan_config_file: /etc/netplan/ansible-config.yaml

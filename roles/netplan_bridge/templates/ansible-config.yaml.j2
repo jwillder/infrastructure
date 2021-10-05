@@ -1,0 +1,9 @@
+network:
+  ethernets:
+    {{ ansible_default_ipv4.interface }}:
+      dhcp4: no
+  bridges:
+    {{ netplan_bridge_name }}:
+      interfaces: [{{ ansible_default_ipv4.interface }}]
+      dhcp4: true
+  version: 2
