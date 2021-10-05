@@ -1,0 +1,7 @@
+---
+# handlers for libvirt
+
+- name: Restart libvirtd
+  ansible.builtin.service:
+    name: libvirtd
+    state: restarted

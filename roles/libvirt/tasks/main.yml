@@ -1,0 +1,45 @@
+---
+# tasks for libvirt
+
+# - name: Install libvirt
+#   apt:
+#     pkg:
+#     - qemu-kvm
+#     - libvirt-daemon-system
+#     - python3-libvirt
+#     - python3-lxml
+#     update_cache: yes
+#     state: latest
+
+- name: Install libvirt
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - qemu-kvm
+    - libvirt-daemon-system
+    - python3-libvirt
+    - python3-lxml
+
+- name: Define bridge network
+  community.libvirt.virt_net: 
+    command: define
+    name: '{{ libvirt_bridge_name }}'
+    xml: '{{ lookup("template", "bridge.xml.j2") }}'
+
+- name: Autostart bridge network
+  community.libvirt.virt_net:
+    autostart: yes
+    name: '{{ libvirt_bridge_name }}'
+
+- name: Start bridge network
+  community.libvirt.virt_net:
+    command: create
+    name: '{{ libvirt_bridge_name }}'
+
+- name: Disable SELinux for QEMU
+  ansible.builtin.lineinfile:
+    path: /etc/libvirt/qemu.conf
+    regexp: '^#security_driver = "selinux"'
+    line: 'security_driver = "none"'
+  notify: Restart libvirtd
