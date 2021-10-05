@@ -1,0 +1,42 @@
+---
+# zfs_datasets tasks
+
+- name: Check zpool exists
+  community.general.zpool_facts: 'pool={{ zfs_zpool.name }}'
+
+- name: Create zfs datasets
+  community.general.zfs:
+    name: '{{ zfs_zpool.name }}/{{ item.name }}'
+    state: present
+  with_items: '{{ zfs_datasets }}'
+
+# - name: Set custom zfs dataset properties
+#   community.general.zfs:
+#     name: '{{ zfs_zpool.name }}/{{ item.0.name }}'
+#     state: present
+#     extra_zfs_properties:
+#       '{{ item.1 }}'
+#   with_subelements:
+#     - '{{ zfs_datasets }}'
+#     - properties
+#     - skip_missing: True
+
+- name: Set custom zfs dataset properties
+  community.general.zfs:
+    name: '{{ zfs_zpool.name }}/{{ item.name }}'
+    state: present
+    extra_zfs_properties:
+      '{{ item.properties }}'
+  loop: '{{ zfs_datasets }}'
+  when: item.properties is defined
+
+# - name: Set directory metadata for the datasets
+#   ansible.builtin.file:
+#     path: '/{{ zfs_zpool.name }}/{{ item.name }}'
+#     state: directory
+#     owner: '{{ item.metadata.owner }}'
+#     group: '{{ item.metadata.group }}'
+#     mode: '{{ item.metadata.mode }}'
+#     recurse: '{{ item.metadata.recurse }}'
+#   loop: '{{ zfs_datasets }}'
+#   when: item.metadata is defined
