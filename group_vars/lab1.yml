@@ -1,0 +1,20 @@
+---
+
+# grog.package
+package_list:
+  - name: zfsutils-linux
+
+# zfs_scrub
+zfs_scrub_zpool: data
+zfs_scrub_oncalendar: weekly
+
+# # ssh_authorize_keys
+# ssh_authorize_keys_dir: /home/{{ username }}/.ssh
+# ssh_authorize_keys_keys:
+#   - id_ed25519_lab2.pub
+
+# netplan_bridge
+netplan_bridge_name: br0
+
+# libvirt
+libvirt_bridge_name: '{{ netplan_bridge_name }}'

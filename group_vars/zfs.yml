@@ -1,0 +1,68 @@
+---
+
+zfs_zpool:
+  name: data
+
+zfs_datasets:
+  # FILES
+  - name: files
+    syncoid:
+      - lab2
+  # FILES/AUDIO
+  - name: files/audio
+    sanoid:
+      use_template: audiovideo
+  # FILES/PHOTOS
+  - name: files/photos
+    properties:
+      recordsize: 1024k
+    sanoid:
+      use_template: photos
+  # FILES/VIDEO
+  - name: files/video
+    sanoid:
+      use_template: audiovideo
+  # SERVICES
+  - name: services
+    syncoid:
+      - lab2
+  # SERVICES/NEXTCLOUD
+  - name: services/nextcloud
+    sanoid:
+      use_template: services
+      recursive: 'yes'
+      process_children_only: 'yes'
+  # SERVICES/NEXTCLOUD/DATA
+  - name: services/nextcloud/data
+  # SERVICES/NEXTCLOUD/DB
+  - name: services/nextcloud/db
+    properties:
+      recordsize: 8k
+  # SERVICES/LOGITECHMEDIASERVER    
+  - name: services/logitechmediaserver
+    properties:
+      recordsize: 64k
+    sanoid:
+      use_template: services
+  # SERVICES/PIHOLE
+  - name: services/pihole
+    sanoid:
+      use_template: services
+  # SERVICES/PIWIGO
+  - name: services/piwigo
+    sanoid:
+      use_template: services
+      recursive: 'yes'
+      process_children_only: 'yes'
+  # SERVICES/PIWIGO/DATA
+  - name: services/piwigo/data
+  # SERVICES/PIWIGO/DB
+  - name: services/piwigo/db
+    properties:
+      recordsize: 8k
+  # VMs
+  - name: vm
+    properties:
+      recordsize: 64k
+    sanoid:
+      use_template: vm
