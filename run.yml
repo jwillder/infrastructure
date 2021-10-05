@@ -1,0 +1,22 @@
+---
+
+- hosts: lab1
+  roles:
+    - role: grog.package
+    - role: zfs_datasets
+    - role: zfs_scrub
+    - role: zfs_sanoid
+    - role: netplan_bridge
+    - role: libvirt
+    
+- hosts: lab2
+  roles:
+    - role: grog.package
+
+- hosts: vm_test
+  roles:
+    - role: grog.package
+
+- hosts: localhost
+  roles:
+    - role: terraform-generator
