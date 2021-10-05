@@ -1,0 +1,24 @@
+---
+# # zfs_sanoid tasks
+
+- name: Install sanoid
+  package:
+    name: sanoid
+    state: present
+
+- name: Create sanoid config directory
+  file:
+    path: /etc/sanoid
+    state: directory
+
+- name: Create sanoid config file
+  template:
+    src: templates/sanoid.conf.j2
+    dest: /etc/sanoid/sanoid.conf
+  debugger: on_failed
+    
+- name: Enable sanoid systemd timer
+  systemd:
+    name: sanoid.timer
+    enabled: yes
+    state: started

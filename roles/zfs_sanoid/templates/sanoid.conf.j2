@@ -1,0 +1,45 @@
+{% for dataset in zfs_datasets %}
+{% if dataset.sanoid is defined %}
+[{{ zfs_zpool.name }}/{{ dataset.name }}]
+{% for property,value in dataset.sanoid.items() %}
+    {{ property }} = {{ value }}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+#############################
+# templates below this line #
+#############################
+
+[template_audiovideo]
+    frequently = 0
+    hourly = 0
+    daily = 7
+    monthly = 3
+    autosnap = yes
+    autoprune = yes
+
+[template_photos]
+    frequently = 0
+    hourly = 0
+    daily = 7
+    monthly = 3
+    autosnap = yes
+    autoprune = yes
+
+[template_services]
+    frequently = 0
+    hourly = 24
+    daily = 30
+    monthly = 3
+    yearly = 0
+    autosnap = yes
+    autoprune = yes
+
+[template_vm]
+    frequently = 0
+    hourly = 24
+    daily = 7
+    monthly = 2
+    autosnap = yes
+    autoprune = yes
